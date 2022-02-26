@@ -23,19 +23,26 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form method="post" >
                             <div class="mb-3">
-                                <label for="countries" class="form-label">Countries</label>
-                                <select class="form-control" name="countries" id="countries">
+                                <label for="country" class="form-label">Countries</label>
+                                <select class="form-control" name="country" id="country">
                                     @foreach($countries as $country)
                                         <option value="{{$country['code']}}">{{$country['name']}}</option>
                                     @endforeach
                                 </select>
+                                @error('country')
+                                <div class="alert alert-danger mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="city" class="form-label">City</label>
-                                <input type="text" class="form-control" id="city">
+                                <input type="text" name="text" class="form-control" id="city">
+                                @error('city')
+                                    <div class="alert alert-danger mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
 

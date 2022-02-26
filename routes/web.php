@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [WeatherController::class, 'index']);
+Route::match(['get', 'post'],'/', [WeatherController::class, 'index']);
