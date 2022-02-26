@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Modules\Country\CountryLoader;
 
 class WeatherController extends Controller
 {
 
     public function index()
     {
-        return view('weather-form');
+        $countryLoader = new CountryLoader();
+
+        return view('weather-form', [
+            'countries' => $countryLoader->list()
+        ]);
     }
 }
