@@ -2,16 +2,19 @@
 
 namespace App\Modules\Weather\WeatherServices;
 
-interface WeatherService
+use App\Api\Weather\WeatherClient;
+
+class WeatherService implements WeatherServiceInterface
 {
+    public function __construct(
+        private WeatherClient $weatherClient
+    ) {
+    }
 
-    /**
-     * @param string $city
-     * @param string $countryCode
-     * @return float temperature in celsius
-     */
-    public function getTemperature(string $city, string $countryCode): float;
+    public function getTemperature(string $city, string $countryCode): float
+    {
+        $response = $this->weatherClient->findWeather($city);
 
-    public function name(): string;
-
+        return $response['current']['temp_c'];
+    }
 }
