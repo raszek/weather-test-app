@@ -31,6 +31,7 @@ DB_PASSWORD=
 Install packages
 ```bash
 composer install
+php artisan migrate
 ```
 
 # Running tests
