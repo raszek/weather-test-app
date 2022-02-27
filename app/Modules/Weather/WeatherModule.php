@@ -16,6 +16,12 @@ class WeatherModule
     ) {
     }
 
+    /**
+     * @param string $city
+     * @param string $countryCode
+     * @return float
+     * @throws TemperatureNotFoundException
+     */
     public function getAverageTemperature(string $city, string $countryCode): float
     {
         $temperature = $this->storage->getWeatherTemperature($city, $countryCode);

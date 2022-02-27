@@ -23,6 +23,11 @@ class CountryLoader
         return $this->countryList;
     }
 
+    public function findCountryByCode(string $code)
+    {
+        return collect($this->list())->first(fn($ctr) => $ctr['code'] === $code);
+    }
+
     private function countriesData(): array
     {
         return Json::decode($this->loadCountriesFile());

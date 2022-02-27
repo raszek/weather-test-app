@@ -2,6 +2,7 @@
 
 namespace App\Modules\Weather;
 
+use App\Modules\Weather\WeatherServices\CityNotFoundException;
 use App\Modules\Weather\WeatherServices\WeatherServiceInterface;
 
 class WeatherServiceCombiner
@@ -19,18 +20,28 @@ class WeatherServiceCombiner
         }
     }
 
+    /**
+     * @param string $city
+     * @param string $countryCode
+     * @return float
+     * @throws TemperatureNotFoundException
+     */
     public function averageTemperature(string $city, string $countryCode): float
     {
-        if (count($this->weatherServices) === 0) {
-            return 0;
-        }
-
-        $temperature = 0;
+        $temperatures = [];
         foreach ($this->weatherServices as $weatherService) {
-            $temperature += $weatherService->getTemperature($city, $countryCode);
+            try {
+                $temperatures []= $weatherService->getTemperature($city, $countryCode);
+            } catch (CityNotFoundException) {
+                continue;
+            }
         }
 
-        return $temperature / count($this->weatherServices);
+        if (count($temperatures) === 0) {
+            throw new TemperatureNotFoundException();
+        }
+
+        return array_sum($temperatures) / count($temperatures);
     }
 
     private function addWeatherService(WeatherServiceInterface $weatherService)

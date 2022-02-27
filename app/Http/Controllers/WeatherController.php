@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Modules\Country\CountryLoader;
+use App\Modules\Weather\TemperatureNotFoundException;
 use App\Modules\Weather\WeatherModule;
 use App\Rules\ValidCountry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class WeatherController extends Controller
 {
@@ -21,7 +23,13 @@ class WeatherController extends Controller
         $result = null;
 
         if ($request->method() === Request::METHOD_POST) {
-            $result = $this->getResult($request);
+            try {
+                $result = $this->getResult($request);
+            } catch (TemperatureNotFoundException) {
+                return Redirect::to('/')->withErrors([
+                    'city' => 'City not found'
+                ]);
+            }
         }
 
         return view('weather-form', [
@@ -30,7 +38,7 @@ class WeatherController extends Controller
         ]);
     }
 
-    private function getResult(Request $request): array
+    private function getResult(Request $request)
     {
         $city = $request->post('city');
         $countryCode = $request->post('country');

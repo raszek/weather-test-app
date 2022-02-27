@@ -3,6 +3,7 @@
 namespace App\Modules\Weather\WeatherServices;
 
 use App\Api\OpenWeather\OpenWeatherClient;
+use GuzzleHttp\Exception\ClientException;
 
 class OpenWeatherService implements WeatherServiceInterface
 {
@@ -13,7 +14,11 @@ class OpenWeatherService implements WeatherServiceInterface
 
     public function getTemperature(string $city, string $countryCode): float
     {
-         return $this->getTemperateInCelsius($this->client->findWeather($city, $countryCode));
+        try {
+            return $this->getTemperateInCelsius($this->client->findWeather($city, $countryCode));
+        } catch (ClientException) {
+            throw new CityNotFoundException('City not found');
+        }
     }
 
     private function getTemperateInCelsius(array $response): float
