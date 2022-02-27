@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('weather_record', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->string('city');
-            $table->string('country_code');
-            $table->float('temperature');
+            $table->date('date')->nullable(false);
+            $table->string('city')->nullable(false);
+            $table->string('country_code')->nullable(false);
+            $table->float('temperature')->nullable(false);
             $table->timestamps();
         });
     }
