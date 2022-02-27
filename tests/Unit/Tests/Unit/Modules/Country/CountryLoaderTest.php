@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Modules\Country;
 
 use App\Modules\Country\CountryLoader;
 use Tests\TestCase;

@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Api\OpenWeather\OpenWeatherClient;
+use App\Modules\Weather\WeatherServices\OpenWeatherService;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class WeatherTest extends TestCase
@@ -42,15 +45,21 @@ class WeatherTest extends TestCase
         $response->assertSeeText('The country has invalid code');
     }
 
-//    /** @test */
-//    public function user_can_select_country_and_input_city_to_get_the_temperature()
-//    {
-//        $response = $this->post('/', [
-//            'country' => 'PL',
-//            'city' => 'Olsztyn',
-//        ]);
-//
-//        $response->assertStatus(200);
-//        $response->assertSeeText('Temperature in Poland, Olsztyn is 8 degrees celsius');
-//    }
+    /** @test */
+    public function user_can_select_country_and_input_city_to_get_the_temperature()
+    {
+        $this->partialMock(OpenWeatherService::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getTemperature')->andReturn(8);
+        });
+
+        $response = $this
+            ->followingRedirects()
+            ->post('/', [
+            'country' => 'PL',
+            'city' => 'Olsztyn',
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertSeeText('Temperature in Poland, Olsztyn is 8 degrees celsius');
+    }
 }

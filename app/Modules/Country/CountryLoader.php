@@ -8,13 +8,19 @@ use App\Helpers\Json;
 class CountryLoader
 {
 
+    private ?array $countryList = null;
+
     public function list(): array
     {
-        return collect($this->countriesData())
+        if (!$this->countryList) {
+            $this->countryList = collect($this->countriesData())
             ->map(fn($country) => [
                 'name' => $country['name'],
                 'code' => $country['alpha-2'],
             ])->all();
+        }
+
+        return $this->countryList;
     }
 
     private function countriesData(): array

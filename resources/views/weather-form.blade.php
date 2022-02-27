@@ -37,13 +37,19 @@
                             </div>
                             <div class="mb-3">
                                 <label for="city" class="form-label">City</label>
-                                <input type="text" name="text" class="form-control" id="city">
+                                <input type="text" name="city" class="form-control" id="city">
                                 @error('city')
                                     <div class="alert alert-danger mt-1">{{ $message }}</div>
                                 @enderror
                             </div>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <button type="submit" class="btn btn-primary">Submit</button>
+
+                            @if($result)
+                                <div class="alert alert-success mt-1">
+                                    Temperature in {{$result['countryName']}}, {{$result['city']}} is {{$result['temperature']}} degrees celsius
+                                </div>
+                            @endif
                         </form>
 
                     </div>
