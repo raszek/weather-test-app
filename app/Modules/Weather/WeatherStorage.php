@@ -16,6 +16,33 @@ class WeatherStorage
         $this->cacheWeather($weatherRecord);
     }
 
+    public function getWeatherTemperature(string $city, $countryCode): ?float
+    {
+        $cacheKey = $this->weatherRecordKey(new WeatherRecord([
+            'date' => Date::now()->toDateString(),
+            'city' => $city,
+            'country_code' => $countryCode
+        ]));
+
+        $value = Cache::get($cacheKey);
+
+        if ($value) {
+            return $value;
+        }
+
+        $record = WeatherRecord::where([
+            'date' => Date::now()->toDateString(),
+            'city' => $city,
+            'country_code' => $countryCode
+        ])->first();
+
+        if (!$record) {
+            return null;
+        }
+
+        return $record->temperature;
+    }
+
     private function cacheWeather(WeatherRecord $weatherRecord)
     {
         Cache::add($this->weatherRecordKey($weatherRecord), $weatherRecord->temperature);

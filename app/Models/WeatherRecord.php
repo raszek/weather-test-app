@@ -17,5 +17,5 @@ class WeatherRecord extends Model
 
     protected $table = 'weather_record';
 
-    protected $fillable = ['city', 'country_code', 'temperature'];
+    protected $fillable = ['date', 'city', 'country_code', 'temperature'];
 }
