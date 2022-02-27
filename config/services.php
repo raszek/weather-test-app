@@ -31,5 +31,8 @@ return [
     ],
     'open-weather' => [
         'token' => env('OPEN_WEATHER_TOKEN'),
-    ]
+    ],
+    'weather' => [
+        'token' => env('WEATHER_TOKEN'),
+    ],
 ];

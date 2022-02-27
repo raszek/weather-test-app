@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Modules\Country\CountryLoader;
-use App\Modules\Weather\WeatherServices\OpenWeatherService;
+use App\Modules\Weather\WeatherModule;
 use App\Rules\ValidCountry;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,7 @@ class WeatherController extends Controller
 
     public function __construct(
         private CountryLoader $countryLoader,
-        private OpenWeatherService $weatherService
+        private WeatherModule $weatherModule
     ) {
     }
 
@@ -30,7 +30,7 @@ class WeatherController extends Controller
         ]);
     }
 
-    private function getResult(Request $request)
+    private function getResult(Request $request): array
     {
         $city = $request->post('city');
         $countryCode = $request->post('country');
@@ -40,7 +40,7 @@ class WeatherController extends Controller
             'city' => ['required']
         ]);
 
-        $temperature = $this->weatherService->getTemperature(
+        $temperature = $this->weatherModule->getAverageTemperature(
             city: $city,
             countryCode: $countryCode
         );

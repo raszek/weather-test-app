@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Api\OpenWeather\OpenWeatherClient;
+use App\Api\Weather\WeatherClient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +28,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OpenWeatherClient::class, function () {
             return new OpenWeatherClient(
                 token: config('services.open-weather')['token'],
+            );
+        });
+
+        $this->app->bind(WeatherClient::class, function () {
+            return new WeatherClient(
+                token: config('services.weather')['token'],
             );
         });
     }

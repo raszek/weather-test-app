@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Api\OpenWeather\OpenWeatherClient;
+use App\Modules\Weather\WeatherModule;
 use App\Modules\Weather\WeatherServices\OpenWeatherService;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -48,8 +48,8 @@ class WeatherTest extends TestCase
     /** @test */
     public function user_can_select_country_and_input_city_to_get_the_temperature()
     {
-        $this->partialMock(OpenWeatherService::class, function (MockInterface $mock) {
-            $mock->shouldReceive('getTemperature')->andReturn(8);
+        $this->partialMock(WeatherModule::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getAverageTemperature')->andReturn(8);
         });
 
         $response = $this

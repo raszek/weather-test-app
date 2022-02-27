@@ -4,16 +4,11 @@ namespace App\Modules\Weather\WeatherServices;
 
 use App\Api\OpenWeather\OpenWeatherClient;
 
-class OpenWeatherService implements WeatherService
+class OpenWeatherService implements WeatherServiceInterface
 {
     public function __construct(
         private OpenWeatherClient $client
     ) {
-    }
-
-    public function name(): string
-    {
-        return 'open-weather';
     }
 
     public function getTemperature(string $city, string $countryCode): float
