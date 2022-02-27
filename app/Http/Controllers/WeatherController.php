@@ -51,7 +51,7 @@ class WeatherController extends Controller
         return [
             'city' => $city,
             'countryName' => $country['name'] ?? $countryCode,
-            'temperature' => round($temperature)
+            'temperature' => round($temperature, 2)
         ];
     }
 
